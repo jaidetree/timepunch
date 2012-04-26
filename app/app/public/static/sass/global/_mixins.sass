@@ -1,0 +1,45 @@
+@mixin clear
+  &:after
+    :clear both
+    :content '.'
+    :display block
+    :visibility hidden
+    :font-size 0
+    :height 0
+
+@mixin border-radius($radius: 10px)
+  :-moz-border-radius $radius
+  :-webkit-border-radius $radius
+  :border-radius $radius
+
+@mixin border-radius-top($radius: 10px)
+  :-moz-border-radius-topleft $radius
+  :-moz-border-radius-topright $radius
+  :-moz-border-radius-bottomright $radius
+  :-moz-border-radius-bottomleft $radius
+  :-webkit-border-radius $radius $radius 0px 0px
+  :border-radius $radius $radius 0px 0px
+
+@mixin transition($selector: all, $time: 400ms, $easing: ease)
+  :-webkit-transition $selector $time $easing
+  :-moz-transition $selector $time $easing
+  :-ms-transition $selector $time $easing
+  :-o-transition $selector $time $easing
+  :transition $selector $time $easing
+
+@mixin box-shadow($x:0, $y:0, $blur:5px, $spread:0, $color: rgba(0,0,0,0.5), $inset: false)
+  @if $inset
+    :-webkit-box-shadow inset $x $y $blur $spread $color
+    :-moz-box-shadow inset $x $y $blur $spread $color
+    :box-shadow inset $x $y $blur $spread $color 
+  @else
+    :-webkit-box-shadow $x $y $blur $spread $color
+    :-moz-box-shadow $x $y $blur $spread $color
+    :box-shadow $x $y $blur $spread $color 
+    
+@mixin linear-gradient( $start, $end)
+  :background -moz-linear-gradient(top, $start, $end)
+  :background -webkit-linear-gradient(top, $start,$end)
+  :background -o-linear-gradient(top, $start,$end)
+  :background -ms-linear-gradient(top, $start,$end)
+  :background linear-gradient(top, $start,$end)

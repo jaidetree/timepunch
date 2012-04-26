@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block page %}Home{% endblock %}
+{% block content %}
+<div class="page-home">
+    <div class="row">
+        <section class="timetable col-8">
+            <h2>Time Sessions</h2>
+            <table class="times">
+                <thead>
+                    <tr>
+                        <th>In</th>
+                        <th>Out</th>
+                        <th>Duration</th>
+                        <th>Category</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for time in times %}
+                    {% if time.stop_time == null %}
+                    <tr class="in-progress">
+                    {% else %}
+                    <tr>
+                    {% endif %}
+                        <td>{{ time.start_time|date:"D, n/d/Y h:i a" }}</td>
+                        <td>{{ time.stop_time|date:"h:i:s a"|default:"&mdash;" }}</td>
+                        <td>{{ time.hours|default:"&mdash;" }}</td>
+                        <td>{{ time.category|default:"<em>Uncategorized</em>" }}</td>
+                        <td>
+                            <a href="#">[E]</a>
+                            <a href="{% url 'time.delete' time.id %}" data-token="{{ token }}" class="delete">[X]</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        <section class="timecreate col-4">
+            {% if active_session %}
+            <div class="elapsed" data-started="{{ active_session.start_time|date:"U" }}"></div>
+            <div class="time-label">Elapsed Time</div>
+            <form method="post" action="{% url 'time.clockout' active_session.id %}" class="clock-out">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" name="action" value="I'm done. Punch out!" />
+            </form>
+            {% else %}
+            <h3><time>{% now "D, n-d-Y @ h:i a" %}</time></h3>
+            <a href="{% url 'time.clockin' %}" data-entry="{{ active_session.id }}" class="clock-in">Punch In!</a>
+            {% endif %}
+        </section>
+    </div><!-- .row -->
+</div>
+{% endblock %}

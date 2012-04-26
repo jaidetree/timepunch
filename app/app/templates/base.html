@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>{% block title %}{% block page %}Timepunch{% endblock %} | Timepunch{% endblock %}</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/screen.css" />   
+        <script src="{{ STATIC_URL }}js/jquery.js" type="text/javascript" charset="utf-8"></script>
+        <script src="{{ STATIC_URL }}js/punchclock.js" type="text/javascript" charset="utf-8"></script>
+        {% block head %}{% endblock head %}
+    </head>
+    <body>
+        <div class="grid">
+            <div class="row">
+                <div class="col-12">
+                    <header class="l-header">
+                        <h1>Punchtime</h1>
+                    </header>
+                </div>
+            </div>
+        {% block content %}{% endblock %}
+        </div><!-- .grid -->
+    </body>
+</html>
