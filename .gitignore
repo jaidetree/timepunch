@@ -1,4 +1,5 @@
 .DS_STORE
-app/app/settings
+app/app/settings/production*
+app/app/settings/dev*
 env/
 *.pyc
