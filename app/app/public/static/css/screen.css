@@ -138,6 +138,10 @@ h3 {
 em {
   font-style: italic; }
 
+h1 a {
+  color: black;
+  text-decoration: none; }
+
 table.times {
   width: 100%; }
   table.times tr.in-progress td {
@@ -200,3 +204,79 @@ a.clock-in {
   margin-bottom: 20px;
   margin-top: 10px;
   font-size: 12px; }
+
+.entry-form h3 {
+  margin-top: 40px;
+  font-size: 17px; }
+.entry-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 12px; }
+.entry-form input {
+  display: block;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 5px; }
+  .entry-form input[type="text"] {
+    width: 95%; }
+  .entry-form input[type="submit"] {
+    height: 40px;
+    line-height: 30px;
+    border: none;
+    background: #50b4fa;
+    font-size: 15px;
+    color: white; }
+  .entry-form input[name^="start_time"], .entry-form input[name^="stop_time"] {
+    display: inline-block;
+    width: 44%; }
+  .entry-form input[name^="start_time"]:first-of-type, .entry-form input[name^="stop_time"]:first-of-type {
+    margin-right: 20px; }
+  .entry-form input[name^="start_time"]:last-of-type, .entry-form input[name^="stop_time"]:last-of-type {
+    width: 39%; }
+
+.page-time-entry .comments {
+  margin-top: 60px; }
+  .page-time-entry .comments h4 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #666666; }
+  .page-time-entry .comments #comments {
+    padding: 10px; }
+    .page-time-entry .comments #comments dt {
+      font-style: italic;
+      margin-bottom: 10px;
+      color: #777777;
+      margin-top: 20px;
+      font-size: 12px; }
+    .page-time-entry .comments #comments dd {
+      padding: 10px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #999999;
+      margin-bottom: 40px; }
+  .page-time-entry .comments .form {
+    border-top: 5px solid #999999; }
+    .page-time-entry .comments .form label {
+      display: block;
+      margin-top: 20px; }
+    .page-time-entry .comments .form input {
+      padding: 5px;
+      width: 602px; }
+      .page-time-entry .comments .form input[type="submit"] {
+        width: auto; }
+    .page-time-entry .comments .form textarea {
+      width: 610px; }
+.page-time-entry .time-entry h2, .page-time-entry .time-entry h3 {
+  display: inline-block; }
+.page-time-entry .time-entry h2 {
+  margin-right: 10px; }
+.page-time-entry .time-entry h3 {
+  margin: 0;
+  margin-left: 10px; }
+.page-time-entry .time-entry strong {
+  font-size: 20px;
+  font-weight: bold; }
+.page-time-entry .time-entry li {
+  border-bottom: 1px solid #999999;
+  padding: 20px; }
+  .page-time-entry .time-entry li:nth-child(0) {
+    border: none; }

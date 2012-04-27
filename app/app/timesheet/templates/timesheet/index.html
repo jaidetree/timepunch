@@ -23,12 +23,12 @@
                     {% else %}
                     <tr>
                     {% endif %}
-                        <td>{{ time.start_time|date:"D, n/d/Y h:i a" }}</td>
+                        <td><a href="{% url 'time.show' time.id %}">{{ time.start_time|date:"D, n/d/Y h:i a" }}</a></td>
                         <td>{{ time.stop_time|date:"h:i:s a"|default:"&mdash;" }}</td>
                         <td>{{ time.hours|default:"&mdash;" }}</td>
                         <td>{{ time.category|default:"<em>Uncategorized</em>" }}</td>
                         <td>
-                            <a href="#">[E]</a>
+                            <a href="{% url 'time.update' time.id %}" class="edit">[E]</a>
                             <a href="{% url 'time.delete' time.id %}" data-token="{{ token }}" class="delete">[X]</a>
                         </td>
                     </tr>
@@ -42,13 +42,21 @@
             <div class="time-label">Elapsed Time</div>
             <form method="post" action="{% url 'time.clockout' active_session.id %}" class="clock-out">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form_clockout.as_p }}
                 <input type="submit" name="action" value="I'm done. Punch out!" />
             </form>
             {% else %}
             <h3><time>{% now "D, n-d-Y @ h:i a" %}</time></h3>
             <a href="{% url 'time.clockin' %}" data-entry="{{ active_session.id }}" class="clock-in">Punch In!</a>
             {% endif %}
+            <div class="entry-form">
+                <h3>Add Entry</h3>
+                <form method="post" action="{% url 'time.create' %}">
+                    {% csrf_token %}
+                    {{ form_create.as_p }}
+                    <input type="submit" name="action" value="Add Entry" />
+                </form>
+            </div><!-- .entry-form -->
         </section>
     </div><!-- .row -->
 </div>

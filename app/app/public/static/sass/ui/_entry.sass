@@ -1,0 +1,30 @@
+.entry-form
+  h3
+    :margin-top 40px
+    :font-size 17px
+  label
+    :display block
+    :margin-bottom 10px
+    :font-size 12px
+  input
+    :display block
+    :margin-bottom 20px
+    :width 100%
+    :padding 5px
+    &[type="text"]
+      :width 95%
+    &[type="submit"]
+      :height 40px
+      :line-height 30px
+      :border none
+      :background rgba(80, 180, 250, 1.0)
+      :font-size 15px
+      :color #fff
+    &[name^="start_time"], &[name^="stop_time"]
+      :display inline-block
+      :width 44%
+    &[name^="start_time"]:first-of-type, &[name^="stop_time"]:first-of-type
+      :margin-right 20px
+    &[name^="start_time"]:last-of-type, &[name^="stop_time"]:last-of-type
+      :width 39%
+      

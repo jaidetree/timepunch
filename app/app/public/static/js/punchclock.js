@@ -50,6 +50,62 @@
             return false;
         });
 
+        $("#id_start_time_0, #id_stop_time_0").datepicker({
+            dateFormat: "yy-mm-dd",
+        });
+
+        if( ! $('#id_start_time_0').val() )
+        {
+            var d = new Date();
+            var hours = d.getHours();
+            var day = d.getDate();
+            var p = "am";
+
+            if( hours > 23 )
+            {
+                hours = 0;
+                day++;
+            }
+
+            if( hours > 12 )
+            {
+                hours -= 12;
+                p = "pm";
+            }
+            $('#id_start_time_0').val(d.getFullYear() + "-" + (d.getMonth() + 1) + '-' + day);
+
+            if( ! $('#id_start_time_1').val() )
+            {
+                $('#id_start_time_1').val(hours + ":" + d.getMinutes() + ' ' + p);
+            }
+        }
+
+        if( ! $('#id_stop_time_0').val() )
+        {
+            var d = new Date();
+            var hours = d.getHours() + 1;
+            var day = d.getDate();
+            var p = "am";
+
+            if( hours > 23 )
+            {
+                hours = 0;
+                day++;
+            }
+
+            if( hours > 12 )
+            {
+                hours -= 12;
+                p = "pm";
+            }
+            $('#id_stop_time_0').val(d.getFullYear() + "-" + (d.getMonth() + 1) + '-' + day);
+
+            if( ! $('#id_stop_time_1').val() )
+            {
+                $('#id_stop_time_1').val(hours + ":" + d.getMinutes() + ' ' + p);
+            }
+        }
+
         if( ! $('.clock-out').length )
         {
             return false;

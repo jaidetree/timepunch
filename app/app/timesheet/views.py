@@ -1,6 +1,6 @@
-from django.views.generic import TemplateView, FormView, CreateView, DetailView
+from django.views.generic import TemplateView, FormView, UpdateView, CreateView, DetailView
 from app.timesheet.models import TimeEntry
-from app.timesheet.forms import TimeEntryForm
+from app.timesheet.forms import TimeEntryForm, TimeClockOutForm, TimeEntryCommentForm
 from app.ext.views import JSONView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -17,15 +17,14 @@ class TimeView(TemplateView):
     def get_context_data(self, **kwargs):
         kwargs = super(TimeView, self).get_context_data(**kwargs)
         active_sessions = TimeEntry.objects.filter(stop_time__isnull=True)
+
         if active_sessions:
             session = active_sessions[0]
         else:
             session = None
-        kwargs.update({'times': TimeEntry.objects.all, 'form': TimeEntryForm, 'active_session': session})
-        return kwargs
 
-class TimeCreateView(FormView):
-    form_class = TimeEntryForm
+        kwargs.update({'times': TimeEntry.objects.all, 'form_create': TimeEntryForm, 'form_clockout': TimeClockOutForm, 'active_session': session})
+        return kwargs
 
 class TimeClockInView(JSONView):
 
@@ -103,4 +102,51 @@ class TimeDeleteEntryView(JSONView):
     def process(self, request, *args, **kwargs):
         return {}
 
+class TimeCreateEntryView(CreateView):
+    form_class = TimeEntryForm
+    template_name = "timesheet/create.html"
+    model = TimeEntry
+    success_url = "/time/"
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(TimeCreateEntryView, self).dispatch(*args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        kwargs = super(TimeCreateEntryView, self).get_context_data(**kwargs)
+        active_sessions = TimeEntry.objects.filter(stop_time__isnull=True)
+
+        if active_sessions:
+            session = active_sessions[0]
+        else:
+            session = None
+
+        kwargs.update({'times': TimeEntry.objects.all, 'form_clockout': TimeClockOutForm, 'active_session': session})
+        return kwargs
+
+class TimeUpdateEntryView(UpdateView):
+    model = TimeEntry
+    form_class = TimeEntryForm
+    template_name = "timesheet/create.html"
+    success_url = "/time/"
+
+class TimeDetailEntryView(DetailView):
+    model = TimeEntry
+
+    def get_context_data(self, **kwargs):
+        kwargs = super(TimeDetailEntryView, self).get_context_data(**kwargs)
+        active_sessions = TimeEntry.objects.filter(stop_time__isnull=True)
+
+        if active_sessions:
+            session = active_sessions[0]
+        else:
+            session = None
+
+        kwargs.update({
+            'times': TimeEntry.objects.all, 
+            'form_create': TimeEntryForm, 
+            'form_clockout': TimeClockOutForm, 
+            'active_session': session,
+            'form_comment': TimeEntryCommentForm
+        })
+        return kwargs

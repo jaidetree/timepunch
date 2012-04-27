@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load comments %}
+{% block page %}Session #{{ object.id }} @ {{ object.start_time }} {% endblock %}
+{% block content %}
+<div class="page-time-entry">
+    <div class="row">
+        <div class="col-8">
+            <div class="time-entry">
+                <ul>
+                    <li><h2>{{ object.start_time }}</h2>to <h3>{{ object.stop_time }}</h3></li>
+                    <li>Category: {{ object.category }}</li>
+                    {% if object.stop_time %}
+                    <li>Total Duration: <strong>{{ object.hours }}</strong></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="comments">
+                <h4>Comments</h4>
+                {% render_comment_list for object %}
+                <div class="form">
+                    {% get_comment_form for object as commentform %}
+                    <form action="{% comment_form_target %}" method="post">
+                        {% csrf_token %}
+                        <div style="display: none;">
+                            {% for hidden in commentform.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+                        </div>
+                        <p>
+                            {{ commentform.url.label_tag }}
+                            {{ commentform.url }}
+                        </p>
+                        <p>
+                            {{ commentform.comment.label_tag }}
+                            {{ commentform.comment }}
+                        </p>
+                        <div style="display: none;">
+                            {{ commentform.honeypot.label_tag }}
+                            {{ commentform.honeypot }}
+                        </div>
+                        <p>
+                            <input type="submit" name="submit-comment" value="Post Comment" />
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div><!-- .col-12 -->
+        <section class="timecreate col-4">
+            {% if active_session %}
+            <div class="elapsed" data-started="{{ active_session.start_time|date:"U" }}"></div>
+            <div class="time-label">Elapsed Time</div>
+            <form method="post" action="{% url 'time.clockout' active_session.id %}" class="clock-out">
+                {% csrf_token %}
+                {{ form_clockout.as_p }}
+                <input type="submit" name="action" value="I'm done. Punch out!" />
+            </form>
+            {% else %}
+            <h3><time>{% now "D, n-d-Y @ h:i a" %}</time></h3>
+            <a href="{% url 'time.clockin' %}" data-entry="{{ active_session.id }}" class="clock-in">Punch In!</a>
+            {% endif %}
+            <div class="entry-form">
+                <h3>Add Entry</h3>
+                <form method="post" action="{% url 'time.create' %}">
+                    {% csrf_token %}
+                    {{ form_create.as_p }}
+                    <input type="submit" name="action" value="Add Entry" />
+                </form>
+            </div><!-- .entry-form -->
+        </section>
+    </div><!-- .row -->
+</div><!-- .page-time-entry -->
+{% endblock %}
